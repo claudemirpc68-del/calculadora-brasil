@@ -404,6 +404,11 @@
       let finalExpr;
       if (currentExpression === '') {
         return; // Nada a avaliar
+      }
+      
+      const trimmedExpr = currentExpression.trim();
+      if (trimmedExpr.endsWith(')')) {
+        finalExpr = currentExpression;
       } else {
         finalExpr = currentExpression + currentInput;
       }
