@@ -443,9 +443,9 @@
       progressBar.style.width = '0%';
       summaryReport.style.display = 'none';
       
-      // Resetar a calculadora antes de começar
+      // Resetar a calculadora antes de começar (usando cache busting para carregar o arquivo mais recente)
       const iframe = document.getElementById('calc-iframe');
-      iframe.src = iframe.src; // Recarrega o iframe
+      iframe.src = 'index.html?t=' + Date.now();
       await delay(1000); // Aguarda recarregar
 
       let failedAny = false;
