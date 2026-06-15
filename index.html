@@ -24,12 +24,81 @@
       <button class="clear-btn" id="clear-hist">Limpar Histórico</button>
     </div>
 
+    <!-- Painel de Seleção de Temas -->
+    <div class="themes-panel" id="themes-panel" aria-hidden="true">
+      <div class="history-header">
+        <h2 class="history-title">Escolher Tema</h2>
+        <button class="icon-btn" id="close-themes" aria-label="Fechar temas">✕</button>
+      </div>
+      <div class="themes-grid" id="themes-grid">
+        <div class="theme-option active" data-theme="theme-br">
+          <div class="theme-meta">
+            <span class="theme-flag">🇧🇷</span>
+            <span class="theme-name">Brasil</span>
+          </div>
+          <div class="theme-colors-preview">
+            <div class="color-dot" style="background: #009c3b;"></div>
+            <div class="color-dot" style="background: #ffdf00;"></div>
+            <div class="color-dot" style="background: #002776;"></div>
+          </div>
+        </div>
+        <div class="theme-option" data-theme="theme-ar">
+          <div class="theme-meta">
+            <span class="theme-flag">🇦🇷</span>
+            <span class="theme-name">Argentina</span>
+          </div>
+          <div class="theme-colors-preview">
+            <div class="color-dot" style="background: #38bdf8;"></div>
+            <div class="color-dot" style="background: #ffffff;"></div>
+            <div class="color-dot" style="background: #f59e0b;"></div>
+          </div>
+        </div>
+        <div class="theme-option" data-theme="theme-de">
+          <div class="theme-meta">
+            <span class="theme-flag">🇩🇪</span>
+            <span class="theme-name">Alemanha</span>
+          </div>
+          <div class="theme-colors-preview">
+            <div class="color-dot" style="background: #1a1a1a;"></div>
+            <div class="color-dot" style="background: #e30013;"></div>
+            <div class="color-dot" style="background: #ffcc00;"></div>
+          </div>
+        </div>
+        <div class="theme-option" data-theme="theme-fr">
+          <div class="theme-meta">
+            <span class="theme-flag">🇫🇷</span>
+            <span class="theme-name">França</span>
+          </div>
+          <div class="theme-colors-preview">
+            <div class="color-dot" style="background: #0050a1;"></div>
+            <div class="color-dot" style="background: #ffffff;"></div>
+            <div class="color-dot" style="background: #e1000f;"></div>
+          </div>
+        </div>
+        <div class="theme-option" data-theme="theme-trophy">
+          <div class="theme-meta">
+            <span class="theme-flag">🏆</span>
+            <span class="theme-name">Golden Trophy</span>
+          </div>
+          <div class="theme-colors-preview">
+            <div class="color-dot" style="background: #1f1c18;"></div>
+            <div class="color-dot" style="background: #d4af37;"></div>
+            <div class="color-dot" style="background: #d4af37;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Barra Superior de Controles -->
     <div class="controls-bar">
-      <button class="icon-btn" id="toggle-sci" title="Alternar Modo Científico" aria-label="Alternar modo científico">🧪</button>
-      <h1 style="font-size: 14px; font-weight: 700; color: var(--text-gold); letter-spacing: 1.5px;">Calculadora BR</h1>
+      <div style="display: flex; gap: 8px;">
+        <button class="icon-btn" id="toggle-sci" title="Alternar Modo Científico" aria-label="Alternar modo científico">🧪</button>
+        <button class="icon-btn" id="toggle-theme" title="Escolher Tema" aria-label="Escolher tema da Copa">🎨</button>
+      </div>
+      <h1 style="font-size: 14px; font-weight: 700; color: var(--text-gold); letter-spacing: 1.5px; margin-left: 8px;">Calculadora BR</h1>
       <button class="icon-btn" id="toggle-hist" title="Ver Histórico" aria-label="Ver histórico de cálculos">⏳</button>
     </div>
+
 
     <!-- Display -->
     <div class="display" aria-live="polite">

@@ -406,3 +406,179 @@ body {
   color: var(--gold-primary);
   text-shadow: 0 0 8px var(--gold-glow);
 }
+
+/* ==============================================================================
+   TEMAS DA COPA DO MUNDO
+   ============================================================================== */
+
+body.theme-br {
+  /* Mantém as variáveis padrão do :root */
+}
+
+body.theme-ar {
+  --bg-gradient-start: #0f2a4a;
+  --bg-gradient-end: #050e1b;
+  --glass-bg: rgba(224, 242, 254, 0.2);
+  --glass-border: rgba(245, 158, 11, 0.25);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --gold-primary: #f59e0b;
+  --gold-glow: rgba(245, 158, 11, 0.4);
+  --blue-primary: #38bdf8;
+  --blue-glow: rgba(56, 189, 248, 0.4);
+  --green-primary: #ffffff;
+  --green-glow: rgba(255, 255, 255, 0.2);
+  --text-gold: #38bdf8;
+  --key-num-bg: rgba(255, 255, 255, 0.08);
+  --key-num-hover: rgba(255, 255, 255, 0.15);
+}
+
+body.theme-de {
+  --bg-gradient-start: #1f1115;
+  --bg-gradient-end: #090305;
+  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-border: rgba(227, 0, 11, 0.25);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --gold-primary: #ffcc00;
+  --gold-glow: rgba(255, 204, 0, 0.4);
+  --blue-primary: #e30013;
+  --blue-glow: rgba(227, 0, 11, 0.4);
+  --green-primary: #1a1a1a;
+  --green-glow: rgba(0, 0, 0, 0.3);
+  --text-gold: #ffcc00;
+  --key-num-bg: rgba(255, 255, 255, 0.06);
+  --key-num-hover: rgba(255, 255, 255, 0.12);
+}
+
+body.theme-fr {
+  --bg-gradient-start: #08162e;
+  --bg-gradient-end: #020612;
+  --glass-bg: rgba(10, 25, 47, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --gold-primary: #ffffff;
+  --gold-glow: rgba(255, 255, 255, 0.3);
+  --blue-primary: #0050a1;
+  --blue-glow: rgba(0, 80, 161, 0.4);
+  --green-primary: #e1000f;
+  --green-glow: rgba(225, 0, 15, 0.4);
+  --text-gold: #0050a1;
+  --key-num-bg: rgba(255, 255, 255, 0.08);
+  --key-num-hover: rgba(255, 255, 255, 0.15);
+}
+
+body.theme-trophy {
+  --bg-gradient-start: #1b1405;
+  --bg-gradient-end: #050400;
+  --glass-bg: rgba(28, 23, 13, 0.75);
+  --glass-border: rgba(212, 175, 55, 0.32);
+  --glass-shadow: rgba(0, 0, 0, 0.7);
+  --gold-primary: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.5);
+  --blue-primary: #1f1c18;
+  --blue-glow: rgba(212, 175, 55, 0.2);
+  --green-primary: #d4af37;
+  --green-glow: rgba(212, 175, 55, 0.4);
+  --text-gold: #d4af37;
+  --key-num-bg: rgba(212, 175, 55, 0.06);
+  --key-num-hover: rgba(212, 175, 55, 0.15);
+}
+
+/* Painel de Seleção de Temas Deslizante */
+.themes-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 18, 9, 0.96);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 24px;
+  padding: 24px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid var(--glass-border);
+}
+
+body.theme-ar .themes-panel { background: rgba(5, 14, 27, 0.96); }
+body.theme-de .themes-panel { background: rgba(9, 3, 5, 0.96); }
+body.theme-fr .themes-panel { background: rgba(2, 6, 18, 0.96); }
+body.theme-trophy .themes-panel { background: rgba(10, 8, 3, 0.96); }
+
+.themes-panel.open {
+  transform: translateY(0);
+}
+
+.themes-grid {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+  margin-bottom: 16px;
+}
+
+.themes-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.themes-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.theme-option {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 18px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--glass-border);
+  transform: scale(1.02);
+}
+
+.theme-option.active {
+  border-color: var(--gold-primary);
+  background: rgba(255, 223, 0, 0.05);
+}
+
+.theme-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-flag {
+  font-size: 24px;
+}
+
+.theme-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.theme-colors-preview {
+  display: flex;
+  gap: 6px;
+}
+
+.color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+

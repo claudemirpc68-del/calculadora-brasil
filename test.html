@@ -335,6 +335,12 @@
         name: "Recuperação do Histórico",
         description: "Clica em AC, abre o histórico, seleciona o último cálculo e confere se reativa o valor 25.",
         steps: ['AC', 'toggle-hist', 'select-last-hist']
+      },
+      {
+        id: "tema-copa",
+        name: "Troca de Temas da Copa",
+        description: "Abre o seletor de temas, escolhe o tema da Argentina (theme-ar) e valida se a classe foi aplicada no body da calculadora.",
+        steps: ['toggle-theme', 'select-theme-ar']
       }
     ];
 
@@ -383,6 +389,12 @@
         btn = doc.getElementById('toggle-hist');
       } else if (val === 'close-hist') {
         btn = doc.getElementById('close-hist');
+      } else if (val === 'toggle-theme') {
+        btn = doc.getElementById('toggle-theme');
+      } else if (val === 'close-themes') {
+        btn = doc.getElementById('close-themes');
+      } else if (val === 'select-theme-ar') {
+        btn = doc.querySelector('[data-theme="theme-ar"]');
       } else if (val === 'select-last-hist') {
         // Clica no primeiro item da lista de histórico
         btn = doc.querySelector('.history-item');
@@ -472,6 +484,16 @@
             pass = (display === '25');
             // Fechar painel de histórico para deixar limpo
             await clickButton('close-hist');
+          } else if (tc.id === 'tema-copa') {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            pass = doc.body.classList.contains('theme-ar');
+            // Voltar para o tema do Brasil para não quebrar testes subsequentes
+            await clickButton('toggle-theme');
+            const brBtn = doc.querySelector('[data-theme="theme-br"]');
+            if (brBtn) {
+              brBtn.click();
+            }
+            await delay(300);
           }
 
           if (pass) {

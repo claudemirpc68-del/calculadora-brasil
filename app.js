@@ -25,6 +25,20 @@
     console.error('Erro ao carregar o histórico:', e);
   }
 
+  // Carregar tema do LocalStorage ao inicializar
+  let currentTheme = 'theme-br';
+  try {
+    const savedTheme = localStorage.getItem('calc_brasil_theme');
+    if (savedTheme) {
+      currentTheme = savedTheme;
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Erro ao carregar o tema:', e);
+  }
+  document.body.className = currentTheme;
+
+
   // Limitar dígitos de precisão
   function precise(n) {
     if (!isFinite(n)) {
@@ -444,6 +458,12 @@
     const closeHistBtn = document.getElementById('close-hist');
     const clearHistBtn = document.getElementById('clear-hist');
 
+    // Elementos de Temas
+    const toggleThemeBtn = document.getElementById('toggle-theme');
+    const themesPanel = document.getElementById('themes-panel');
+    const closeThemesBtn = document.getElementById('close-themes');
+    const themesGrid = document.getElementById('themes-grid');
+
     // Event listener para teclas básicas
     if (keysGrid) {
       keysGrid.addEventListener('click', (e) => {
@@ -503,6 +523,59 @@
           console.error(e);
         }
         renderHistory();
+      });
+    }
+
+    // Configurar estado ativo inicial na grade de temas
+    if (themesGrid) {
+      const activeOpt = themesGrid.querySelector(`[data-theme="${currentTheme}"]`);
+      if (activeOpt) {
+        themesGrid.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+        activeOpt.classList.add('active');
+      }
+    }
+
+    // Alternar painel de temas
+    if (toggleThemeBtn) {
+      toggleThemeBtn.addEventListener('click', () => {
+        themesPanel.classList.add('open');
+        if (historyPanel) {
+          historyPanel.classList.remove('open');
+        }
+      });
+    }
+
+    if (closeThemesBtn) {
+      closeThemesBtn.addEventListener('click', () => {
+        themesPanel.classList.remove('open');
+      });
+    }
+
+    // Seleção de tema na grade
+    if (themesGrid) {
+      themesGrid.addEventListener('click', (e) => {
+        const option = e.target.closest('.theme-option');
+        if (!option) {
+          return;
+        }
+        const selectedTheme = option.dataset.theme;
+        currentTheme = selectedTheme;
+        document.body.className = selectedTheme;
+
+        // Atualizar classe active na interface
+        themesGrid.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+
+        // Salvar escolha no localStorage
+        try {
+          localStorage.setItem('calc_brasil_theme', selectedTheme);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Erro ao salvar o tema:', err);
+        }
+
+        // Fechar painel
+        themesPanel.classList.remove('open');
       });
     }
 
