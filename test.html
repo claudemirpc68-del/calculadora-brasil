@@ -419,10 +419,10 @@
           }
         }
 
-        await delay(150);
+        await delay(300);
         btn.style.transform = '';
         btn.style.filter = '';
-        await delay(150); // 300ms no total de atraso por passo
+        await delay(300); // 600ms no total de atraso por passo (mais visível para observação)
       } else {
         throw new Error(`Botão "${val}" não encontrado no iframe!`);
       }
@@ -511,7 +511,7 @@
           console.error(`Falha no teste ${tc.id}:`, err);
         }
 
-        await delay(500); // Pausa entre testes
+        await delay(1500); // Pausa de 1.5 segundos entre testes (dá tempo de observar os resultados)
       }
 
       progressBar.style.width = '100%';
