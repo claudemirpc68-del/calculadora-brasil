@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Brasil - Premium</title>
+  <meta name="description" content="Uma calculadora web moderna com design premium inspirado nas cores do Brasil, contendo histórico de cálculos e modo avançado/científico.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Container Principal da Calculadora -->
+  <div class="calc-container" id="calc-container" role="application" aria-label="Calculadora Brasil Premium">
+    
+    <!-- Painel de Histórico Deslizante -->
+    <div class="history-panel" id="history-panel" aria-hidden="true">
+      <div class="history-header">
+        <h2 class="history-title">Histórico</h2>
+        <button class="icon-btn" id="close-hist" aria-label="Fechar histórico">✕</button>
+      </div>
+      <div class="history-list" id="history-list">
+        <!-- Itens inseridos dinamicamente -->
+      </div>
+      <button class="clear-btn" id="clear-hist">Limpar Histórico</button>
+    </div>
+
+    <!-- Barra Superior de Controles -->
+    <div class="controls-bar">
+      <button class="icon-btn" id="toggle-sci" title="Alternar Modo Científico" aria-label="Alternar modo científico">🧪</button>
+      <h1 style="font-size: 14px; font-weight: 700; color: var(--text-gold); letter-spacing: 1.5px;">Calculadora BR</h1>
+      <button class="icon-btn" id="toggle-hist" title="Ver Histórico" aria-label="Ver histórico de cálculos">⏳</button>
+    </div>
+
+    <!-- Display -->
+    <div class="display" aria-live="polite">
+      <div class="expr" id="expr" aria-label="Expressão matemática atual"></div>
+      <div class="num" id="num" aria-label="Resultado ou valor atual">0</div>
+    </div>
+
+    <!-- Layout do Teclado -->
+    <div class="keyboard-layout">
+      
+      <!-- Grade Científica (Escondida por padrão) -->
+      <div class="scientific-grid" id="scientific-keys">
+        <button class="key fn" data-v="("> ( </button>
+        <button class="key fn" data-v=")"> ) </button>
+        <button class="key fn" data-v="^"> x<sup>y</sup> </button>
+        <button class="key fn" data-v="x²"> x² </button>
+        <button class="key fn" data-v="sqrt"> √ </button>
+        <button class="key fn" data-v="π"> π </button>
+      </div>
+
+      <!-- Grade Numérica Principal -->
+      <div class="keys-grid" id="keys">
+        <button class="key fn" data-v="AC" aria-label="Limpar tudo">AC</button>
+        <button class="key fn" data-v="+/-" aria-label="Inverter sinal">+/−</button>
+        <button class="key fn" data-v="%" aria-label="Porcentagem">%</button>
+        <button class="key op" data-v="÷" aria-label="Dividir">÷</button>
+        
+        <button class="key" data-v="7">7</button>
+        <button class="key" data-v="8">8</button>
+        <button class="key" data-v="9">9</button>
+        <button class="key op" data-v="×" aria-label="Multiplicar">×</button>
+        
+        <button class="key" data-v="4">4</button>
+        <button class="key" data-v="5">5</button>
+        <button class="key" data-v="6">6</button>
+        <button class="key op" data-v="−" aria-label="Subtrair">−</button>
+        
+        <button class="key" data-v="1">1</button>
+        <button class="key" data-v="2">2</button>
+        <button class="key" data-v="3">3</button>
+        <button class="key op" data-v="+" aria-label="Somar">+</button>
+        
+        <button class="key" data-v="0">0</button>
+        <button class="key" data-v="." aria-label="Ponto decimal">.</button>
+        <button class="key fn" data-v="DEL" aria-label="Apagar último caractere">⌫</button>
+        <button class="key eq" data-v="=" aria-label="Calcular resultado">=</button>
+      </div>
+
+    </div>
+
+    <!-- Créditos / Footer -->
+    <div class="footer">
+      BY: <span>Claudemir</span>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

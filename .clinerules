@@ -1,0 +1,21 @@
+# Regras de Desenvolvimento Eficiente (Otimização de Crédito e Tokens)
+
+Você deve seguir rigorosamente as seguintes diretrizes para este espaço de trabalho:
+
+1. **Economia de Recursos e Tokens**:
+   - Mantenha as respostas curtas, objetivas e focadas na solução.
+   - Evite reescrever arquivos inteiros se puder fazer substituições pontuais (use ferramentas de edição parcial).
+   - Não adicione comentários prolixos ou explicações óbvias no código.
+   - Evite loops de depuração: se uma correção falhar duas vezes, pare e peça clarificação ou mude a estratégia.
+
+2. **Abordagem Incremental e MVP**:
+   - Desenvolva em pequenas etapas funcionais (micro-tarefas).
+   - Valide cada etapa antes de avançar.
+   - Foque estritamente no escopo da solicitação atual para evitar desperdício de chamadas.
+
+3. **Pragmatismo**:
+   - Dê preferência a soluções simples (HTML/CSS/JS puros) antes de sugerir ou instalar dependências ou frameworks complexos.
+   - Escreva códigos prontos para uso, evitando placeholders ou marcas como "TODO" para partes críticas.
+
+4. **Idioma**:
+   - Todas as respostas, logs e documentações devem ser em português do Brasil (pt-BR).

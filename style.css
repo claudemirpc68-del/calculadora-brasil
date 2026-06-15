@@ -1,0 +1,408 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-gradient-start: #061c0e;
+  --bg-gradient-end: #020804;
+  
+  --glass-bg: rgba(14, 43, 23, 0.55);
+  --glass-border: rgba(255, 223, 0, 0.18);
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  
+  --gold-primary: #ffdf00;
+  --gold-glow: rgba(255, 223, 0, 0.4);
+  --blue-primary: #002776;
+  --blue-glow: rgba(0, 39, 118, 0.4);
+  --green-primary: #009c3b;
+  --green-glow: rgba(0, 156, 59, 0.4);
+  
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-gold: #ffdf00;
+  
+  --key-num-bg: rgba(255, 255, 255, 0.08);
+  --key-num-hover: rgba(255, 255, 255, 0.15);
+  --key-num-border: rgba(255, 255, 255, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at center, var(--bg-gradient-start), var(--bg-gradient-end));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--text-main);
+  overflow: hidden;
+  padding: 10px;
+}
+
+/* Container Principal da Calculadora */
+.calc-container {
+  position: relative;
+  width: 340px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 20px 50px var(--glass-shadow),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+/* Layout Científico Expandido */
+.calc-container.scientific {
+  width: 580px;
+}
+
+/* Display */
+.display {
+  background: rgba(0, 39, 118, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 39, 118, 0.3);
+  box-shadow: 
+    inset 0 4px 12px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.expr {
+  font-size: 14px;
+  color: var(--text-gold);
+  min-height: 20px;
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  direction: ltr; /* Mudar para LTR para fórmulas normais */
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+}
+
+.num {
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: right;
+  margin-top: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+/* Painel Superior de Controle (Histórico e Alternador de Modo) */
+.controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--glass-border);
+  transform: scale(1.05);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Teclado e Grades */
+.keyboard-layout {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.keys-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+/* Teclas Científicas */
+.scientific-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  margin-right: 0;
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.2s ease, margin-right 0.3s ease;
+}
+
+.scientific .scientific-grid {
+  width: 210px;
+  opacity: 1;
+  pointer-events: auto;
+  margin-right: 16px;
+}
+
+/* Estilos de Botão (Teclas) */
+.key {
+  border: 1px solid var(--key-num-border);
+  background: var(--key-num-bg);
+  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 14px;
+  height: 56px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+.key:hover {
+  background: var(--key-num-hover);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 14px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.key:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Teclas Especiais de Operadores (Azul Royal) */
+.key.op {
+  background: rgba(0, 39, 118, 0.45);
+  color: var(--text-main);
+  border-color: rgba(0, 39, 118, 0.3);
+}
+
+.key.op:hover {
+  background: rgba(0, 39, 118, 0.65);
+  box-shadow: 
+    0 6px 14px var(--blue-glow),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Teclas de Função Especial (Verde Esmeralda) */
+.key.fn {
+  background: rgba(0, 156, 59, 0.35);
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 500;
+  border-color: rgba(0, 156, 59, 0.25);
+}
+
+.key.fn:hover {
+  background: rgba(0, 156, 59, 0.55);
+  box-shadow: 
+    0 6px 14px var(--green-glow),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Tecla de Igual (Dourado Ouro) */
+.key.eq {
+  background: var(--gold-primary);
+  color: var(--blue-primary);
+  font-size: 24px;
+  font-weight: 700;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.key.eq:hover {
+  background: #ffeb60;
+  box-shadow: 
+    0 6px 18px var(--gold-glow),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.key.eq:active {
+  background: var(--gold-primary);
+  transform: translateY(1px);
+}
+
+/* Tecla de Zero que ocupa duas colunas */
+.key.zero {
+  grid-column: span 2;
+}
+
+/* Painel de Histórico Deslizante */
+.history-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 18, 9, 0.96);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 24px;
+  padding: 24px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid var(--glass-border);
+}
+
+.history-panel.open {
+  transform: translateY(0);
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.history-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-primary);
+}
+
+.history-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+/* Custom Scrollbar */
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.history-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: right;
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 223, 0, 0.1);
+  transform: translateX(-2px);
+}
+
+.history-item .hist-expr {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-item .hist-result {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-primary);
+}
+
+.history-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 40px;
+}
+
+.clear-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid rgba(255, 0, 0, 0.25);
+  color: #ff4d4d;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.clear-btn:hover {
+  background: rgba(255, 0, 0, 0.25);
+  border-color: rgba(255, 0, 0, 0.4);
+}
+
+/* Footer / Créditos */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 18px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.footer span {
+  color: var(--gold-primary);
+  text-shadow: 0 0 8px var(--gold-glow);
+}
