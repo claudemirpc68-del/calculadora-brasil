@@ -333,11 +333,46 @@
       return;
     }
 
-    // Operadores básicos e parênteses
-    if (['+', '−', '×', '÷', '^', '(', ')'].includes(val)) {
-      // Se for operador e o input atual tiver um número, concatena na expressão
-      if (currentExpression === '' || isNewCalculation) {
+    // Tratamento de Parênteses
+    if (val === '(') {
+      if (isNewCalculation || currentInput === '0' || currentInput === 'Erro') {
+        currentExpression += '( ';
+      } else {
+        currentExpression += currentInput + ' × ( ';
+      }
+      exprDisplay.textContent = currentExpression;
+      updateDisplay('0');
+      isNewCalculation = false;
+      return;
+    }
+
+    if (val === ')') {
+      const openCount = (currentExpression.match(/\(/g) || []).length;
+      const closeCount = (currentExpression.match(/\)/g) || []).length;
+      if (openCount > closeCount) {
+        currentExpression += currentInput + ' ) ';
+        exprDisplay.textContent = currentExpression;
+        updateDisplay('0');
+        isNewCalculation = true;
+      }
+      return;
+    }
+
+    // Operadores básicos (+, −, ×, ÷, ^)
+    if (['+', '−', '×', '÷', '^'].includes(val)) {
+      if (currentExpression === '') {
         currentExpression = currentInput + ' ' + val + ' ';
+      } else if (isNewCalculation) {
+        // Substituir o último operador se o usuário clicar em outro operador em seguida
+        const trimmed = currentExpression.trim();
+        const lastSpaceIndex = trimmed.lastIndexOf(' ');
+        const lastToken = lastSpaceIndex === -1 ? trimmed : trimmed.substring(lastSpaceIndex + 1);
+        
+        if (['+', '−', '×', '÷', '^'].includes(lastToken)) {
+          currentExpression = trimmed.substring(0, lastSpaceIndex + 1) + val + ' ';
+        } else {
+          currentExpression += ' ' + val + ' ';
+        }
       } else {
         currentExpression += currentInput + ' ' + val + ' ';
       }
