@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bateria de Testes de Interface - Calculadora Brasil</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-gradient-start: #041209;
+      --bg-gradient-end: #010402;
+      --glass-bg: rgba(14, 43, 23, 0.45);
+      --glass-border: rgba(255, 223, 0, 0.15);
+      --gold-primary: #ffdf00;
+      --green-success: #00ea56;
+      --red-failure: #ff4d4d;
+      --text-main: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at center, var(--bg-gradient-start), var(--bg-gradient-end));
+      min-height: 100vh;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .test-dashboard {
+      display: flex;
+      gap: 30px;
+      width: 100%;
+      max-width: 1100px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    /* Lado Esquerdo: Calculadora (Iframe) */
+    .calc-preview-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 370px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .calc-preview-card.scientific {
+      width: 610px;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      background: transparent;
+    }
+
+    /* Lado Direito: Painel de Controle e Status */
+    .control-panel {
+      flex: 1;
+      min-width: 320px;
+      max-width: 600px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold-primary);
+    }
+
+    .start-btn {
+      background: var(--gold-primary);
+      color: #002776;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255, 223, 0, 0.25);
+    }
+
+    .start-btn:hover {
+      background: #ffeb60;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 223, 0, 0.4);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    .start-btn:disabled {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Barra de progresso circular/barra */
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--gold-primary);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    /* Lista de Testes */
+    .test-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .test-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .test-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .test-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .test-item.running {
+      border-color: var(--gold-primary);
+      background: rgba(255, 223, 0, 0.03);
+    }
+
+    .test-item.passed {
+      border-color: rgba(0, 234, 86, 0.2);
+      background: rgba(0, 234, 86, 0.02);
+    }
+
+    .test-item.failed {
+      border-color: rgba(255, 77, 77, 0.2);
+      background: rgba(255, 77, 77, 0.02);
+    }
+
+    .test-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .test-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .test-description {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .test-status {
+      font-size: 18px;
+      font-weight: 700;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .test-status.pending { color: var(--text-muted); }
+    .test-status.running { color: var(--gold-primary); }
+    .test-status.passed { color: var(--green-success); }
+    .test-status.failed { color: var(--red-failure); }
+
+    /* Report Final */
+    .summary-report {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      display: none;
+      text-align: center;
+    }
+
+    .summary-report.success {
+      border: 1px solid rgba(0, 234, 86, 0.2);
+      color: var(--green-success);
+    }
+
+    .summary-report.failure {
+      border: 1px solid rgba(255, 77, 77, 0.2);
+      color: var(--red-failure);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Validador de Interface (UI)</h1>
+  <p class="subtitle">Simulação automatizada de cliques e verificação em tempo real</p>
+
+  <div class="test-dashboard">
+    
+    <!-- Lado Esquerdo: Preview da Calculadora -->
+    <div class="calc-preview-card" id="calc-card">
+      <iframe src="index.html" id="calc-iframe" title="Preview da Calculadora"></iframe>
+    </div>
+
+    <!-- Lado Direito: Dashboard de Testes -->
+    <div class="control-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Fila de Testes de UI</h2>
+        <button class="start-btn" id="start-btn">Rodar Testes</button>
+      </div>
+
+      <!-- Barra de Progresso -->
+      <div class="progress-bar-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Lista de Cenários -->
+      <div class="test-list" id="test-list">
+        <!-- Inseridos dinamicamente -->
+      </div>
+
+      <!-- Relatório Resumido -->
+      <div class="summary-report" id="summary-report"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // Cenários de Teste de UI
+    const testCases = [
+      {
+        id: "soma",
+        name: "Fluxo de Soma Simples",
+        description: "Testa a operação básica '7 + 3 =' e confere se retorna 10.",
+        steps: ['7', '+', '3', '=']
+      },
+      {
+        id: "troca-op",
+        name: "Troca de Operadores",
+        description: "Testa '5 + * 4 =' (substituindo + por *) e confere se retorna 20.",
+        steps: ['5', '+', '×', '4', '=']
+      },
+      {
+        id: "ac-limpar",
+        name: "Limpeza Geral (AC)",
+        description: "Testa se o botão AC zera a expressão e o display para 0.",
+        steps: ['9', '+', '9', 'AC']
+      },
+      {
+        id: "parenteses-sci",
+        name: "Multiplicação Implícita e Parênteses",
+        description: "Abre o modo científico, digita '5 ( 2 + 3 ) =' e confere se retorna 25.",
+        steps: ['toggle-sci', '5', '(', '2', '+', '3', ')', '=']
+      },
+      {
+        id: "historico-recuperar",
+        name: "Recuperação do Histórico",
+        description: "Clica em AC, abre o histórico, seleciona o último cálculo e confere se reativa o valor 25.",
+        steps: ['AC', 'toggle-hist', 'select-last-hist']
+      }
+    ];
+
+    const testList = document.getElementById('test-list');
+    const startBtn = document.getElementById('start-btn');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    const summaryReport = document.getElementById('summary-report');
+    const calcCard = document.getElementById('calc-card');
+
+    // Injetar lista inicial
+    function initList() {
+      testList.innerHTML = '';
+      testCases.forEach((tc) => {
+        const item = document.createElement('div');
+        item.className = 'test-item';
+        item.id = `item-${tc.id}`;
+        item.innerHTML = `
+          <div class="test-info">
+            <span class="test-name">${tc.name}</span>
+            <span class="test-description">${tc.description}</span>
+          </div>
+          <div class="test-status pending" id="status-${tc.id}">Pendente</div>
+        `;
+        testList.appendChild(item);
+      });
+      summaryReport.style.display = 'none';
+      progressContainer.style.display = 'none';
+      progressBar.style.width = '0%';
+    }
+
+    // Delay baseado em Promise
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Simular clique de botão no iframe da calculadora
+    async function clickButton(val) {
+      const iframe = document.getElementById('calc-iframe');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      
+      let btn;
+      if (val === 'toggle-sci') {
+        btn = doc.getElementById('toggle-sci');
+      } else if (val === 'toggle-hist') {
+        btn = doc.getElementById('toggle-hist');
+      } else if (val === 'close-hist') {
+        btn = doc.getElementById('close-hist');
+      } else if (val === 'select-last-hist') {
+        // Clica no primeiro item da lista de histórico
+        btn = doc.querySelector('.history-item');
+      } else {
+        btn = doc.querySelector(`[data-v="${val}"]`);
+      }
+
+      if (btn) {
+        // Estilizar rapidamente no iframe para dar feedback visual de clique
+        btn.style.transform = 'scale(0.9)';
+        btn.style.filter = 'brightness(1.3)';
+        btn.click();
+        
+        // Se for alternar científico, aplica a classe no card externo para expandir a largura
+        if (val === 'toggle-sci') {
+          await delay(100);
+          const hasSci = doc.getElementById('calc-container').classList.contains('scientific');
+          if (hasSci) {
+            calcCard.classList.add('scientific');
+          } else {
+            calcCard.classList.remove('scientific');
+          }
+        }
+
+        await delay(150);
+        btn.style.transform = '';
+        btn.style.filter = '';
+        await delay(150); // 300ms no total de atraso por passo
+      } else {
+        throw new Error(`Botão "${val}" não encontrado no iframe!`);
+      }
+    }
+
+    // Ler valores do display do iframe
+    function getDisplayValue() {
+      const iframe = document.getElementById('calc-iframe');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const numDiv = doc.getElementById('num');
+      return numDiv ? numDiv.textContent : '';
+    }
+
+    // Executar a fila de testes
+    async function runTests() {
+      startBtn.disabled = true;
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+      summaryReport.style.display = 'none';
+      
+      // Resetar a calculadora antes de começar
+      const iframe = document.getElementById('calc-iframe');
+      iframe.src = iframe.src; // Recarrega o iframe
+      await delay(1000); // Aguarda recarregar
+
+      let failedAny = false;
+
+      for (let i = 0; i < testCases.length; i++) {
+        const tc = testCases[i];
+        const item = document.getElementById(`item-${tc.id}`);
+        const statusSpan = document.getElementById(`status-${tc.id}`);
+        
+        // Atualiza status para rodando
+        item.className = 'test-item running';
+        statusSpan.className = 'test-status running';
+        statusSpan.textContent = 'Rodando...';
+
+        progressBar.style.width = `${((i) / testCases.length) * 100}%`;
+
+        try {
+          // Executa passos de clique
+          for (let step of tc.steps) {
+            await clickButton(step);
+          }
+
+          // Asserções baseadas no caso
+          let pass = false;
+          const display = getDisplayValue();
+
+          if (tc.id === 'soma') {
+            pass = (display === '10');
+          } else if (tc.id === 'troca-op') {
+            pass = (display === '20');
+          } else if (tc.id === 'ac-limpar') {
+            pass = (display === '0');
+          } else if (tc.id === 'parenteses-sci') {
+            pass = (display === '25');
+          } else if (tc.id === 'historico-recuperar') {
+            pass = (display === '25');
+            // Fechar painel de histórico para deixar limpo
+            await clickButton('close-hist');
+          }
+
+          if (pass) {
+            item.className = 'test-item passed';
+            statusSpan.className = 'test-status passed';
+            statusSpan.textContent = '✔️';
+          } else {
+            throw new Error(`Resultado incorreto no display: ${display}`);
+          }
+        } catch (err) {
+          failedAny = true;
+          item.className = 'test-item failed';
+          statusSpan.className = 'test-status failed';
+          statusSpan.textContent = '❌';
+          console.error(`Falha no teste ${tc.id}:`, err);
+        }
+
+        await delay(500); // Pausa entre testes
+      }
+
+      progressBar.style.width = '100%';
+      await delay(300);
+
+      // Exibe report final
+      summaryReport.style.display = 'block';
+      if (failedAny) {
+        summaryReport.className = 'summary-report failure';
+        summaryReport.textContent = 'Bateria concluída: Alguns testes de UI falharam. Verifique o console.';
+      } else {
+        summaryReport.className = 'summary-report success';
+        summaryReport.textContent = 'Bateria concluída: Todos os testes de UI passaram com sucesso!';
+      }
+      
+      startBtn.disabled = false;
+    }
+
+    startBtn.addEventListener('click', runTests);
+    
+    // Inicializar no carregamento da tela
+    window.addEventListener('load', initList);
+  </script>
+</body>
+</html>

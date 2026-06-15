@@ -42,10 +42,28 @@
     if (isNaN(val)) {
       return '0';
     }
-    const p = precise(val);
-    let s = p.toString();
+    
+    // Usar notação científica para números gigantescos ou minúsculos
+    if (Math.abs(val) >= 1e12 || (Math.abs(val) > 0 && Math.abs(val) < 1e-7)) {
+      return val.toExponential(5);
+    }
+    
+    let s = precise(val).toString();
     if (s.length > 12) {
-      s = p.toExponential(5);
+      if (s.includes('.')) {
+        const parts = s.split('.');
+        const integerLen = parts[0].length;
+        const allowedDecimals = 12 - integerLen - 1;
+        if (allowedDecimals > 0) {
+          s = val.toFixed(allowedDecimals);
+          // Remove zeros à direita após o ponto decimal
+          s = parseFloat(s).toString();
+        } else {
+          s = val.toExponential(5);
+        }
+      } else {
+        s = val.toExponential(5);
+      }
     }
     return s;
   }

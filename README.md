@@ -16,13 +16,25 @@ Uma calculadora web desenvolvida do zero com design **3D Premium** inspirado nas
 
 ## ✨ Funcionalidades
 
-- ➕ Adição, ➖ Subtração, ✖️ Multiplicação e ➗ Divisão
-- 🔢 Suporte a números decimais
-- ➕➖ Inversão de sinal (`+/-`)
-- 💯 Cálculo de porcentagem (`%`)
-- 🔄 Repetição da última operação ao pressionar `=` várias vezes
-- ❌ Divisão por zero tratada com mensagem de `Erro`
-- ⌨️ **Suporte completo ao teclado** (números, operadores, Enter, Backspace, Escape)
+### 🎮 Calculadora Padrão
+- ➕ Adição, ➖ Subtração, ✖️ Multiplicação e ➗ Divisão.
+- 🔢 Suporte a números decimais de alta precisão.
+- ➕➖ Inversão de sinal (`+/-`).
+- 💯 Cálculo de porcentagem (`%`).
+- ⌫ Botão visual de retrocesso (Backspace/DEL) para correções rápidas.
+- ❌ Divisão por zero tratada com mensagem de `Erro`.
+- ⌨️ **Suporte completo ao teclado** (números, operadores, Enter, Backspace, Escape).
+
+### 🧪 Modo Científico / Avançado
+*   Suporte a parênteses `( )` com balanceamento automático ao calcular.
+*   Multiplicação implícita ao abrir parênteses (ex: `5(` vira `5 × ( `).
+*   Raiz quadrada (`√`) e Exponenciação (`x²` e `x^y`).
+*   Constante Matemática `π` (PI) de alta precisão.
+
+### ⏳ Histórico de Cálculos
+*   Painel lateral/superior deslizante que registra suas últimas 50 operações.
+*   Persistência automática no navegador usando `LocalStorage`.
+*   Clique em qualquer cálculo do histórico para trazê-lo de volta à tela principal.
 
 ---
 
@@ -30,12 +42,32 @@ Uma calculadora web desenvolvida do zero com design **3D Premium** inspirado nas
 
 | Elemento | Escolha |
 |---|---|
-| **Tema** | Cores da Seleção Brasileira 🇧🇷 |
-| **Efeito dos botões** | Neumorfismo 3D (alto-relevo) |
-| **Tela de display** | Azul vibrante com números brancos |
-| **Fundo da página** | Gradiente verde esmeralda |
+| **Tema** | Cores da Seleção Brasileira Noturna 🇧🇷 |
+| **Estilo** | Glassmorphism translúcido com blur de fundo |
+| **Bordas** | Dourado ouro translúcido com brilho interno |
+| **Tela de display** | Azul vibrante com sombra neon |
 | **Tipografia** | Google Fonts — Inter |
-| **Animação** | Botões "afundam" ao clique |
+| **Animação** | Botões metálicos dinâmicos com transições de escala suave |
+
+---
+
+## 🧪 Bateria de Testes
+
+O projeto inclui uma suíte completa de testes automatizados para assegurar a corretude das operações:
+
+### 1. Testes Lógicos (Node.js)
+Valida a precisão matemática do parser e comportamento de precedência aritmética.
+*   **Comando**:
+    ```bash
+    node test-logic.js
+    ```
+*   **Cobertura**: Mais de 25 cenários estruturados (divisão por zero, parênteses, precedência de operadores, raiz, valores negativos e PI).
+
+### 2. Testes de Interface (UI)
+Página interativa com dashboard que simula cliques reais na interface em tempo real.
+*   **Como executar**:
+    *   Abra o arquivo [test.html](test.html) no seu navegador.
+    *   Clique no botão **"Rodar Testes"** para assistir a simulação e verificar o relatório.
 
 ---
 
@@ -44,24 +76,7 @@ Uma calculadora web desenvolvida do zero com design **3D Premium** inspirado nas
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-
-- **HTML5** — Estrutura semântica e acessível
-- **CSS3** — Neumorfismo, Grid Layout, Flexbox, Animações e variáveis de cor
-- **JavaScript Vanilla** — Lógica completa da calculadora sem dependências externas
-
----
-
-## ⌨️ Atalhos de Teclado
-
-| Tecla | Função |
-|---|---|
-| `0` a `9` | Digitar números |
-| `+` `-` `*` `/` | Operadores matemáticos |
-| `Enter` ou `=` | Calcular resultado |
-| `.` ou `,` | Decimal |
-| `Backspace` | Apagar último dígito |
-| `Escape` | Limpar tudo (AC) |
-| `%` | Porcentagem |
+![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 ---
 
@@ -69,7 +84,13 @@ Uma calculadora web desenvolvida do zero com design **3D Premium** inspirado nas
 
 ```
 calculadora-brasil/
-└── index.html   # Arquivo único com HTML, CSS e JS integrados
+├── index.html       # Estrutura semântica e esqueleto HTML5
+├── style.css        # Design system, neomorfismo e glassmorphism
+├── app.js           # Lógica da calculadora, parser de expressões e histórico
+├── test.html        # Painel interativo de testes de UI
+├── test-logic.js    # Bateria de testes lógicos para terminal (Node.js)
+├── eslint.config.js # Regras de linting do código JavaScript
+└── .prettierrc      # Regras de formatação de estilo de código
 ```
 
 ---
